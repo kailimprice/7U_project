@@ -20,6 +20,8 @@ public class SlackCall {
                 .text("Hello there")
                 .build();
         ChatPostMessageResponse response = methods.chatPostMessage(request);
-        System.out.println("The result of the request was a sent message of 'Hello there' to the Slack channel with the channel id C05UNTBFKMH.");
+        System.out.println(response);
+        System.out.println("The result of the request was a sent message of 'Hello there' to the Slack channel with" +
+                " the channel id C05UNTBFKMH.");
     }
 }
