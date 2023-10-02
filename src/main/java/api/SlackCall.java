@@ -18,23 +18,24 @@ public class SlackCall {
     public SlackCall() throws JSONException{
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         Request request = new Request.Builder()
-                .url("https://grade-logging-api.chenpan.ca/team")
+                .url("https://slack.com/api/auth.test")
                 .get()
                 .addHeader("Authorization", API_TOKEN)
-                .addHeader("Content-Type", "application/json")
                 .build();
         try {
             Response response = client.newCall(request).execute();
             System.out.println(response);
             JSONObject responseBody = new JSONObject(response.body().string());
 
-        if (responseBody.getInt("status_code") == 200) {
+        if (responseBody.getBoolean("ok")) {
+            JSONObject url = responseBody.getJSONObject("url");
             JSONObject team = responseBody.getJSONObject("team");
-            JSONArray membersArray = team.getJSONArray("members");
-            String[] members = new String[membersArray.length()];
-        for (int i = 0; i < membersArray.length(); i++) {
-            members[i] = membersArray.getString(i);
-        }
+            JSONObject user = responseBody.getJSONObject("user");
+            JSONObject team_id = responseBody.getJSONObject("team_id");
+            JSONObject user_id = responseBody.getJSONObject("user_id");
+            JSONObject bot_id = responseBody.getJSONObject("bot_id");
+            JSONObject is_enterprise_install = responseBody.getJSONObject("is_enterprise_install");
+
         return Team.builder()
                         .name(team.getString("name"))
                         .members(members)
@@ -49,34 +50,16 @@ public class SlackCall {
         }
     }
 
-    // draft copy
-    public Team getMyTeam(String course) {
+    // example response body
+    //{
+    //    "ok": true,
+    //        "url": "https://7ugroup.slack.com/",
+    //        "team": "7U",
+    //        "user": "7u_encryption",
+    //        "team_id": "T05V1KHB6V7",
+    //        "user_id": "U05VC0UF00Y",
+    //        "bot_id": "B05URE7PN5A",
+    //        "is_enterprise_install": false
+    //}
 
-
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-        Request request = new Request.Builder()
-                .url(String.format("https://grade-logging-api.chenpan.ca/grade?course=%s&utorid=%s", course, utorid))
-                .addHeader("Authorization", API_TOKEN)
-                .addHeader("Content-Type", "application/json")
-                .build();
-        try {
-            Response response = client.newCall(request).execute();
-            System.out.println(response);
-            JSONObject responseBody = new JSONObject(response.body().string());
-
-            if (responseBody.getInt("status_code") == 200) {
-                JSONObject grade = responseBody.getJSONObject("grade");
-                return Grade.builder()
-                        .utorid(grade.getString("utorid"))
-                        .course(grade.getString("course"))
-                        .grade(grade.getInt("grade"))
-                        .build();
-            } else {
-                throw new RuntimeException(responseBody.getString("message"));
-            }
-        } catch (IOException | JSONException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
