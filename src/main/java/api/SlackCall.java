@@ -12,7 +12,7 @@ import java.io.IOException;
 public class SlackCall {
     public static void main(String[] args) throws SlackApiException, IOException {
         Slack slack = Slack.getInstance();
-        final String token = "xoxb-5987663380993-5998028510032-nOhqvPqcDdzpBKzK02PiwuYs";
+        final String token = "xapp-1-A05UP0UAYD8-5961189432647-556e448254a0da328e18c98745c27beefb50ebf937b077659120086054b8522a";
         final String channelId = "C05UNTBFKMH";
         MethodsClient methods = slack.methods(token);
         ChatPostMessageRequest request = ChatPostMessageRequest.builder()
