@@ -7,7 +7,7 @@ link to the documentation : https://api.slack.com/docs  .
 
 
 screenshot of using hoppscotch: ![img_3.png](img_3.png)  .
-
+![img_4.png](img_4.png)
 
 
 example output : 
